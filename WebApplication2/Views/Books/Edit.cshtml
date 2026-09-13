@@ -1,0 +1,54 @@
+﻿@model BookCatalog.Models.Book
+@{
+    ViewData["Title"] = "Редактирование книги";
+    var authors = ViewBag.Authors as List<BookCatalog.Models.Author>;
+    var genres = ViewBag.Genres as List<BookCatalog.Models.Genre>;
+}
+
+<h2>Редактирование книги</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Year" class="form-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="AuthorId" class="form-label"></label>
+                <select asp-for="AuthorId" class="form-select" asp-items="@(new SelectList(authors, "Id", "FullName"))">
+                    <option value="">-- Выберите автора --</option>
+                </select>
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="GenreId" class="form-label"></label>
+                <select asp-for="GenreId" class="form-select" asp-items="@(new SelectList(genres, "Id", "Name"))">
+                    <option value="">-- Выберите жанр --</option>
+                </select>
+                <span asp-validation-for="GenreId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Назад к списку</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
