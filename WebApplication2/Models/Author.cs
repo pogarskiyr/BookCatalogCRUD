@@ -14,7 +14,7 @@ namespace BookCatalog.Models
         [Display(Name = "Год рождения")]
         public int? BirthYear { get; set; }
 
-        // Навигационное свойство (один ко многим)
+        
         public ICollection<Book> Books { get; set; } = new List<Book>();
     }
 }

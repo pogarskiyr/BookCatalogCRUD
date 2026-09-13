@@ -27,11 +27,11 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Books}/{action=Index}/{id?}");
 
-// Применяем миграции и создаём БД (если её нет)
+// Применяем миграции и создаём БД (если еещё нет)
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<BookCatalogContext>();
-    dbContext.Database.EnsureCreated(); // Создаст БД и применит seed-данные
+    dbContext.Database.EnsureCreated(); // Создаст БД и применит начальные данные
 }
 
 app.Run();

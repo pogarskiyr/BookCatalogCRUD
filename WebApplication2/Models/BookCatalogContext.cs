@@ -22,7 +22,7 @@ namespace BookCatalog.Models
                 .HasOne(b => b.Author)
                 .WithMany(a => a.Books)
                 .HasForeignKey(b => b.AuthorId)
-                .OnDelete(DeleteBehavior.Restrict); // Не даём удалить автора, если есть книги
+                .OnDelete(DeleteBehavior.Restrict); 
 
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Genre)
@@ -30,7 +30,7 @@ namespace BookCatalog.Models
                 .HasForeignKey(b => b.GenreId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // --- Seed-данные (начальное наполнение) ---
+            // Начальное наполнение
             modelBuilder.Entity<Author>().HasData(
                 new Author { Id = 1, FullName = "Лев Толстой", BirthYear = 1828 },
                 new Author { Id = 2, FullName = "Фёдор Достоевский", BirthYear = 1821 },
@@ -43,7 +43,7 @@ namespace BookCatalog.Models
                 new Genre { Id = 3, Name = "Фантастика" }
             );
 
-            // Книги (добавим пару для примера)
+            // Книги для примера
             modelBuilder.Entity<Book>().HasData(
                 new Book { Id = 1, Title = "Война и мир", Year = 1869, Price = 500, AuthorId = 1, GenreId = 1 },
                 new Book { Id = 2, Title = "Преступление и наказание", Year = 1866, Price = 450, AuthorId = 2, GenreId = 1 },

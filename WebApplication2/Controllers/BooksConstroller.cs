@@ -13,7 +13,7 @@ namespace BookCatalog.Controllers
             _context = context;
         }
 
-        // GET: Books (главная страница с поиском и фильтром)
+        // Запрос GET: Books (главная страница с поиском и фильтром)
         public async Task<IActionResult> Index(string searchString, int? authorId)
         {
             var books = _context.Books
@@ -40,7 +40,7 @@ namespace BookCatalog.Controllers
             return View(await books.ToListAsync());
         }
 
-        // GET: Books/Create
+        // Запрос GET: Books/Create
         public async Task<IActionResult> Create()
         {
             ViewBag.Authors = await _context.Authors.ToListAsync();
@@ -48,14 +48,14 @@ namespace BookCatalog.Controllers
             return View();
         }
 
-        // POST: Books/Create
+        // Запрос POST: Books/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Year,Price,AuthorId,GenreId")] Book book)
         {
             if (ModelState.IsValid)
             {
-                // Проверка, что автор и жанр существуют (доп. безопасность)
+                // Проверка, что автор и жанр существуют
                 var authorExists = await _context.Authors.AnyAsync(a => a.Id == book.AuthorId);
                 var genreExists = await _context.Genres.AnyAsync(g => g.Id == book.GenreId);
                 if (!authorExists || !genreExists)
@@ -68,7 +68,7 @@ namespace BookCatalog.Controllers
 
                 _context.Add(book);
                 await _context.SaveChangesAsync();
-                TempData["Success"] = "Книга успешно добавлена!";
+                TempData["Success"] = "Книга успешно добавлена.";
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Authors = await _context.Authors.ToListAsync();
@@ -76,7 +76,7 @@ namespace BookCatalog.Controllers
             return View(book);
         }
 
-        // GET: Books/Edit/5
+        // Запрос GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
@@ -89,7 +89,7 @@ namespace BookCatalog.Controllers
             return View(book);
         }
 
-        // POST: Books/Edit/5
+        // Запрос POST: Books/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Year,Price,AuthorId,GenreId")] Book book)

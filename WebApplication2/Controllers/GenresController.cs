@@ -17,7 +17,7 @@ namespace BookCatalog.Controllers
         // Список всех жанров + количество книг в каждом (через LINQ)
         public async Task<IActionResult> Index()
         {
-            // Используем LINQ: Select + Count для подсчёта книг
+            // LINQ: Select + Count для подсчёта книг
             var genresWithCount = await _context.Genres
                 .Select(g => new
                 {
@@ -26,13 +26,13 @@ namespace BookCatalog.Controllers
                 })
                 .ToListAsync();
 
-            // Сохраняем количество книг в ViewBag, чтобы отобразить в таблице
+            // Количество книг в ViewBag, чтобы отобразить в таблице
             ViewBag.BookCounts = genresWithCount.ToDictionary(x => x.Genre.Id, x => x.BookCount);
 
             return View(genresWithCount.Select(x => x.Genre).ToList());
         }
 
-        // GET: Genres/Details/5 — просмотр подробностей (опционально, но полезно)
+        // GET: Genres/Details/5 — просмотр подробностей
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -133,7 +133,7 @@ namespace BookCatalog.Controllers
 
             if (genre == null) return NotFound();
 
-            // Проверка: если есть книги, нельзя удалять — вернёмся на Index с сообщением
+            // Проверка: если есть книги, нельзя удалять
             if (genre.Books.Any())
             {
                 TempData["Error"] = $"Нельзя удалить жанр \"{genre.Name}\", так как с ним связано {genre.Books.Count} книг(и).";
@@ -154,7 +154,7 @@ namespace BookCatalog.Controllers
 
             if (genre != null)
             {
-                // Двойная проверка на сервере (на случай обхода через прямой POST)
+                
                 if (genre.Books.Any())
                 {
                     TempData["Error"] = "Нельзя удалить жанр, у которого есть книги.";
